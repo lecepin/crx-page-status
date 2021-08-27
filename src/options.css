@@ -1,0 +1,48 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+fieldset {
+  border: 1px solid #222;
+}
+
+h1 {
+  border-bottom: 1px solid #eee;
+}
+
+.op-btn {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.op-btn .btn-save {
+  background-color: #2f54eb;
+  color: #fff;
+}
+
+.op-btn button {
+  cursor: pointer;
+}
+
+b.normal {
+  color: #52c41a;
+}
+
+b.warning {
+  color: #faad14;
+}
+
+b.danger {
+  color: #f5222d;
+}
+
+.github img {
+  vertical-align: middle;
+  width: 20px;
+}
+
+.github a {
+  font-style: italic;
+}

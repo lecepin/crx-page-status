@@ -1,0 +1,150 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #fafafa;
+}
+
+.op-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#setting {
+  width: 24px;
+  cursor: pointer;
+}
+
+#app {
+  width: 500px;
+  padding: 10px;
+}
+
+.group {
+  border: 1px solid #222;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.group:last-child {
+  margin: 0;
+}
+
+.group-head {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.group-head-block {
+  display: flex;
+  align-items: center;
+}
+
+.group-head-title {
+  font-weight: bold;
+}
+
+.group-head-title span {
+  font-size: 14px;
+}
+
+.group-head-icon {
+  width: 16px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.group-head-icon-place {
+  width: 16px;
+  margin-right: 5px;
+}
+
+.group-head-value {
+  font-weight: bold;
+}
+
+.group-head-status {
+  margin-left: 5px;
+  border: 1px solid #222;
+  border-radius: 5px;
+  width: 16px;
+  height: 16px;
+}
+
+.group-content {
+  display: none;
+  margin-left: 31px;
+  font-size: 12px;
+  padding: 5px 10px 10px 0;
+  border-top: 1px dashed #222;
+}
+
+.group-content-item {
+  display: flex;
+  line-height: 1.8;
+  align-items: center;
+}
+
+.group-content-item-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.group-content-item-between-title {
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.group-content-item-between-value {
+  flex-grow: 1;
+  text-align: right;
+  position: relative;
+}
+
+.group-content-item-between-value-progress {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.group-content-item:hover {
+  background-color: #eee;
+}
+
+.group-content-item-index {
+  width: 20px;
+  text-align: right;
+  flex-shrink: 0;
+  margin-right: 5px;
+}
+
+.group-content-item-type {
+  width: 20px;
+  margin-right: 5px;
+}
+
+.group-content-item-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  width: 0;
+}
+
+.group-content-item-time {
+  text-align: right;
+  width: 50px;
+  margin-left: 10px;
+  white-space: nowrap;
+}
