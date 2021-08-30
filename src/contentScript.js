@@ -3,6 +3,7 @@
     NORMAL: "#52c41a",
     WARNING: "#faad14",
     DANGER: "#f5222d",
+    NONE: "#fff",
   };
 
   const FILE_TYPE_ICON = {
@@ -16,6 +17,7 @@
   };
 
   const _messageBox = [];
+  let _visibleWindow = true;
 
   function converSize(size) {
     let _size = "";
@@ -60,6 +62,10 @@
         frame++;
 
         if (now > 1000 + lastTime) {
+          if (!_visibleWindow) {
+            return res(0);
+          }
+
           const fps = ~~((frame * 1000) / (now - lastTime));
           res(fps);
           // frame = 0;
@@ -230,9 +236,11 @@
         },
         (config) => {
           const _fps = {
-            _1: fps + "fps",
+            _1: fps == 0 ? "--" : fps + "fps",
             _1Status:
-              fps < config["fps-d-min"]
+              fps == 0
+                ? "NONE"
+                : fps < config["fps-d-min"]
                 ? "DANGER"
                 : fps < config["fps-w-min"]
                 ? "WARNING"
@@ -463,4 +471,10 @@
       }
     );
   }
+
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+      _visibleWindow = !document.hidden;
+    }
+  });
 })();
