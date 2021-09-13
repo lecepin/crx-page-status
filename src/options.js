@@ -38,7 +38,7 @@ domResetBtn.addEventListener("click", () => {
     (value) => {
       Array.from(domConfigForm.getElementsByTagName("input")).map((item) => {
         if (item.type == "checkbox") {
-          return (item.checked = value[item.name] == "true" ? true : false);
+          return (item.checked = value[item.name]);
         }
         item.value = value[item.name];
       });
@@ -56,7 +56,7 @@ function init() {
     (value) => {
       Array.from(domConfigForm.getElementsByTagName("input")).map((item) => {
         if (item.type == "checkbox") {
-          return (item.checked = value[item.name] == "true" ? true : false);
+          return (item.checked = value[item.name]);
         }
         item.value = value[item.name];
       });

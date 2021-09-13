@@ -11,8 +11,8 @@ const config = {
   "slow-d-min": "6",
   "fps-w-min": "40",
   "fps-d-min": "20",
-  "notify-enable": "true",
-  "notify-auto-close": "true",
+  "notify-enable": true,
+  "notify-auto-close": true,
   "notify-auto-close-time": "3",
 };
 
@@ -61,7 +61,11 @@ chrome.runtime.onMessage.addListener(
     if (storage) {
       if (storage.type == "get") {
         chrome.storage.local.get(storage.key, (store) => {
-          sendResponse(store[storage.key] || config[storage.key]);
+          sendResponse(
+            store[storage.key] === undefined
+              ? config[storage.key]
+              : store[storage.key]
+          );
         });
         return true;
       }
@@ -74,7 +78,7 @@ chrome.runtime.onMessage.addListener(
         const all = {};
         chrome.storage.local.get(Object.keys(config), (store) => {
           Object.keys(config).map((key) => {
-            all[key] = store[key] || config[key];
+            all[key] = store[key] === undefined ? config[key] : store[key];
           });
           sendResponse(all);
         });

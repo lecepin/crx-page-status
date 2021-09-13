@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Page Status",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "页面状态",
   "icons": {
     "16": "icons/icon_16.png",
