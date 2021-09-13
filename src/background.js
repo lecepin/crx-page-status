@@ -27,20 +27,22 @@ chrome.runtime.onMessage.addListener(
         store.times = store.times || {};
         store.times[sender.tab.id] = times;
         chrome.storage.local.set(store, () => {
-          chrome.browserAction.setPopup({
+          chrome.action.setPopup({
             popup: "popup.html",
             tabId: sender.tab.id,
           });
-          chrome.browserAction.setBadgeText({
+          chrome.action.setBadgeText({
             text: times.load.value,
             tabId: sender.tab.id,
           });
-          chrome.browserAction.setBadgeBackgroundColor({
+          chrome.action.setBadgeBackgroundColor({
             color: times.load.statusColor,
             tabId: sender.tab.id,
           });
         });
       });
+
+      return true;
     }
 
     if (fps) {
@@ -52,13 +54,16 @@ chrome.runtime.onMessage.addListener(
         };
         chrome.storage.local.set(store, () => {});
       });
+
+      return true;
     }
 
     if (storage) {
       if (storage.type == "get") {
-        return sendResponse(
-          localStorage.getItem(storage.key) || config[storage.key]
-        );
+        chrome.storage.local.get(storage.key, (store) => {
+          sendResponse(store[storage.key] || config[storage.key]);
+        });
+        return true;
       }
 
       if (storage.type == "getOrigin") {
@@ -67,22 +72,33 @@ chrome.runtime.onMessage.addListener(
 
       if (storage.type == "getAll") {
         const all = {};
-
-        Object.keys(config).map((key) => {
-          all[key] = localStorage.getItem(key) || config[key];
+        chrome.storage.local.get(Object.keys(config), (store) => {
+          Object.keys(config).map((key) => {
+            all[key] = store[key] || config[key];
+          });
+          sendResponse(all);
         });
-
-        return sendResponse(all);
+        // 必须 return true; 不然 等不到异步结束 (￣ε￣；)
+        return true;
       }
 
       if (storage.type == "set") {
-        return localStorage.setItem(storage.key, storage.value);
+        return chrome.storage.local.set(
+          {
+            [storage.key]: storage.value,
+          },
+          () => {}
+        );
       }
 
       if (storage.type == "setAll") {
+        const all = {};
+
         Object.keys(storage.value).map((key) => {
-          localStorage.setItem(key, storage.value[key]);
+          all[key] = storage.value[key];
         });
+
+        return chrome.storage.local.set(all, () => {});
       }
     }
   }
