@@ -148,3 +148,12 @@ body {
   margin-left: 10px;
   white-space: nowrap;
 }
+
+.group-filter {
+  display: inline-block;
+  cursor: pointer;
+  border: 1px solid grey;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin: 2px;
+}
