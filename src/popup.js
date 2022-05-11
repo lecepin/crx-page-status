@@ -1,4 +1,5 @@
 import "./popup.css";
+import { converSize } from './utils.js';
 
 chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
   if (!tabs.length) {
@@ -10,6 +11,21 @@ chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
     const fps = (_fps || {})[tabs[0].id] || {};
     const domApp = document.getElementById("app");
     let appHtml = "";
+    const resMap = new Map();
+    console.log(times.res);
+    (times.res.list || []).forEach((item) => {
+      const { _size, type } = item;
+      if (!resMap.has(type)) {
+        resMap.set(type, _size);
+      } else {
+        resMap.set(type, resMap.get(type) + _size);
+      }
+    }, resMap);
+
+    const resArr = []
+    resMap.forEach((value, key) => {
+      resArr.push({ key, value });
+    });
 
     if (times.load) {
       appHtml += `
@@ -111,10 +127,16 @@ chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
             </div>
           </div>
           <div class="group-content">
+            <div>
+              ${resArr.map(i => {
+                const { key, value } = i;
+                return `<span class="group-filter" id="${key}">${key}:${converSize(value)}</span>`
+              }).join("")}
+            </div>
             ${times.res.list
               .map((item, index) => {
                 return `
-                  <div class="group-content-item" style="color: ${
+                  <div class="${`group-content-item group-content-item-ordinary group-content-item-${item.type}`}" style="color: ${
                     item.timeColor
                   }; text-decoration: ${item.timeThrough}">
                     <div class="group-content-item-index">${index + 1}.</div>
@@ -125,6 +147,7 @@ chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
                   item.name
                 }</div>
                     <div class="group-content-item-time">${item.time}</div>
+                    <div class="group-content-item-time">${item.size}</div>
                   </div>
                 `;
               })
@@ -268,6 +291,19 @@ chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
 
           target.parentElement.parentElement.parentElement.lastElementChild.style.display =
             "none";
+        }
+      }
+      if (target.classList.contains("group-filter")) {
+        const curType = target.getAttribute("id");
+        if (curType) {
+          const allElements = document.getElementsByClassName('group-content-item-ordinary');
+          for (let e of allElements) {
+            e.style.display = 'none'
+          }
+          const elements = document.getElementsByClassName(`group-content-item-${curType}`);
+          for (let e of elements) {
+            e.style.display = 'flex'
+          }
         }
       }
     });
